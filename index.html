@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Efecto Zeigarnik | Laboratorio Cognitivo, Video, Infografía y Skill Interactiva</title>
+    <meta name="description" content="Descubre y experimenta el Efecto Zeigarnik: por qué tu cerebro recuerda lo inconcluso. Incluye reproductor de video explicativo, infografía oficial de alta resolución y la Skill interactiva en vivo.">
+
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #FBF8F3;
+            --bg-alt: #F4EFE6;
+            --card-color: #FFFFFF;
+            --card-subtle: #F6F2EB;
+            --primary: #1E352B;
+            --primary-light: #2A483B;
+            --primary-dark: #12211B;
+            --accent: #C85A32;
+            --accent-hover: #AF4A25;
+            --accent-soft: rgba(200, 90, 50, 0.12);
+            --gold: #D4A373;
+            --gold-soft: rgba(212, 163, 115, 0.2);
+            --text-main: #232B28;
+            --text-muted: #5E6963;
+            --text-light: #8E9993;
+            --border: rgba(30, 53, 43, 0.12);
+            --border-hover: rgba(200, 90, 50, 0.35);
+            --shadow-sm: 0 4px 12px rgba(30, 53, 43, 0.05);
+            --shadow-md: 0 12px 28px -6px rgba(30, 53, 43, 0.08), 0 4px 10px rgba(30, 53, 43, 0.03);
+            --shadow-lg: 0 24px 48px -12px rgba(30, 53, 43, 0.14), 0 8px 16px rgba(30, 53, 43, 0.04);
+            --shadow-3d: 0 20px 40px -10px rgba(30, 53, 43, 0.16), 0 1px 3px rgba(30, 53, 43, 0.08);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--primary);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 3D and Hover effects */
+        .card-3d {
+            background: var(--card-color);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+        }
+
+        .card-3d:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-3d);
+            border-color: var(--border-hover);
+        }
+
+        /* Header / Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(251, 248, 243, 0.92);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 78px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(200, 90, 50, 0.25);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.8rem;
+            list-style: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            transition: color 0.2s ease;
+            position: relative;
+            padding: 0.25rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Botones */
+        .btn {
+            background-color: var(--primary);
+            color: var(--bg-color);
+            padding: 0.8rem 1.6rem;
+            border-radius: var(--radius-full);
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(30, 53, 43, 0.2);
+            font-family: var(--font-body);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 53, 43, 0.25);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #B84720 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(200, 90, 50, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #DF683F 0%, var(--accent) 100%);
+            box-shadow: 0 8px 24px rgba(200, 90, 50, 0.45);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--bg-color);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.1rem;
+            font-size: 0.84rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: var(--card-subtle);
+            border: 1px solid var(--border);
+            padding: 0.45rem 1.1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-accent {
+            background-color: var(--accent-soft);
+            color: var(--accent);
+            border-color: rgba(200, 90, 50, 0.25);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 3px rgba(200, 90, 50, 0.2);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6.5rem 1.5rem 5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at 50% 20%, rgba(212, 163, 115, 0.15) 0%, transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+            margin-bottom: 1.5rem;
+            max-width: 950px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero h1 span.italic {
+            font-style: italic;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero p.lead {
+            font-size: clamp(1.05rem, 2vw, 1.28rem);
+            color: var(--text-muted);
+            max-width: 740px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            font-weight: 500;
+        }
+
+        /* Section Headings */
+        .section-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 3.5rem auto;
+        }
+
+        .section-tag {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.84rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 3.8vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* General Sections */
+        section {
+            padding: 6rem 1.5rem;
+            position: relative;
+        }
+
+        .section-alt {
+            background-color: var(--bg-alt);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Grid 2 Columns */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        @media(min-width: 860px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Card Box Explanation */
+        .card-explanation {
+            background-color: var(--card-color);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-explanation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .badge-state {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm);
+            background: var(--card-subtle);
+            border: 1px solid var(--border);
+            margin-top: 1.5rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           SECCIÓN DE LA SKILL INTERACTIVA (CORE FEATURE)
+        ============================================================ */
+        .skill-section {
+            background: linear-gradient(175deg, #182C22 0%, #12211A 100%);
+            color: #FAF8F5;
+            padding: 6.5rem 1.5rem;
+            position: relative;
+        }
+
+        .skill-section h2, .skill-section h3, .skill-section h4 {
+            color: #FFFFFF;
+        }
+
+        .skill-section .section-desc {
+            color: #B5C4BC;
+        }
+
+        .skill-badge {
+            background: rgba(200, 90, 50, 0.2);
+            color: #FFA585;
+            border: 1px solid rgba(200, 90, 50, 0.4);
+        }
+
+        .skill-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            background: rgba(28, 48, 38, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
+        }
+
+        /* Tabs de Modos de la Skill */
+        .skill-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .mode-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #D3E0D8;
+            padding: 1rem 1.1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: var(--font-body);
+        }
+
+        .mode-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 163, 115, 0.4);
+        }
+
+        .mode-tab.active {
+            background: rgba(200, 90, 50, 0.25);
+            border-color: var(--accent);
+            color: #FFFFFF;
+            box-shadow: 0 4px 16px rgba(200, 90, 50, 0.3);
+        }
+
+        .mode-tab-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mode-tab-desc {
+            font-size: 0.78rem;
+            color: #9FB5A9;
+            line-height: 1.35;
+        }
+
+        /* Área de Entrada de la Skill */
+        .skill-input-area {
+            background: rgba(14, 26, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .skill-input-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            color: #E2ECE5;
+        }
+
+        .skill-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            color: #FFFFFF;
+            padding: 1rem 1.25rem;
+            font-family: var(--font-body);
+            font-size: 0.98rem;
+            min-height: 95px;
+            resize: vertical;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        .skill-textarea:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(200, 90, 50, 0.2);
+        }
+
+        .preset-container {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .preset-label {
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8CA094;
+            font-weight: 600;
+            margin-right: 0.25rem;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #C3D5CA;
+            font-size: 0.78rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .preset-btn:hover {
+            background: rgba(212, 163, 115, 0.2);
+            border-color: var(--gold);
+            color: #FFFFFF;
+        }
+
+        .skill-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Salida de Resultados de la Skill */
+        .skill-output-box {
+            background: rgba(20, 36, 28, 0.95);
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 0.4s ease;
+            position: relative;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .output-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media(min-width: 768px) {
+            .output-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .output-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+        }
+
+        .output-card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #FFA585;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .output-card p {
+            font-size: 0.92rem;
+            color: #E2ECE5;
+            line-height: 1.55;
+        }
+
+        .output-step-box {
+            grid-column: 1 / -1;
+            background: rgba(200, 90, 50, 0.15);
+            border: 1px solid rgba(200, 90, 50, 0.4);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .output-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        /* ============================================================
+           SECCIÓN DE LA INFOGRAFÍA
+        ============================================================ */
+        .infografia-showcase {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media(min-width: 960px) {
+            .infografia-showcase {
+                grid-template-columns: 1.15fr 0.85fr;
+            }
+        }
+
+        .infografia-frame {
+            position: relative;
+            background: var(--card-color);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .infografia-frame:hover {
+            transform: scale(1.01);
+        }
+
+        .infografia-img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            display: block;
+            cursor: zoom-in;
+            transition: opacity 0.3s;
+        }
+
+        .infografia-overlay-btn {
+            position: absolute;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            background: rgba(30, 53, 43, 0.88);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-size: 0.82rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        .infografia-overlay-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .pillars-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .pillar-item {
+            background: var(--card-color);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .pillar-item:hover {
+            transform: translateX(6px);
+            border-color: var(--accent);
+        }
+
+        .pillar-num {
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pillar-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        .pillar-content p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Modal Lightbox para la Infografía */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 33, 27, 0.94);
+            backdrop-filter: blur(8px);
+            overflow: auto;
+            padding: 2rem 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content-wrapper {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            background: var(--accent);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+           SECCIÓN DEL VIDEO EXPLICATIVO
+        ============================================================ */
+        .video-section {
+            background-color: var(--bg-alt);
+        }
+
+        .video-showcase {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        @media(min-width: 900px) {
+            .video-showcase {
+                grid-template-columns: 0.95fr 1.05fr;
+            }
+        }
+
+        /* Smartphone / Vertical Theater Mockup */
+        .phone-mockup {
+            max-width: 360px;
+            margin: 0 auto;
+            background: #111A16;
+            border-radius: 44px;
+            padding: 14px;
+            box-shadow: 0 25px 60px -15px rgba(30, 53, 43, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1), inset 0 0 0 2px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .phone-notch {
+            width: 120px;
+            height: 18px;
+            background: #111A16;
+            border-radius: 0 0 14px 14px;
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            background: #000;
+            aspect-ratio: 9 / 16;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Video Chapters & Insights */
+        .video-insights-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .chapter-card {
+            background: var(--card-color);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .chapter-card:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+            background: var(--card-subtle);
+        }
+
+        .chapter-card.active {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .chapter-time {
+            background: var(--primary);
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.4rem 0.75rem;
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+
+        .chapter-info h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .chapter-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           SECCIÓN DEL EXPERIMENTO COGNITIVO
+        ============================================================ */
+        .section-interactive {
+            padding: 7rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #11201A 100%);
+            color: var(--bg-color);
+            text-align: center;
+        }
+
+        .interactive-card {
+            background-color: var(--card-color);
+            color: var(--text-main);
+            max-width: 800px;
+            margin: 3rem auto 0 auto;
+            padding: 3.5rem 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 2px solid rgba(212, 163, 115, 0.4);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .word-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .word-chip {
+            background-color: var(--bg-color);
+            border: 1px solid rgba(30, 53, 43, 0.18);
+            padding: 0.65rem 1.3rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .word-chip.interrupted {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            animation: pulse-chip 1.5s infinite;
+        }
+
+        @keyframes pulse-chip {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 90, 50, 0.5); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(200, 90, 50, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 90, 50, 0); }
+        }
+
+        .timer-bar {
+            width: 100%;
+            background-color: rgba(30, 53, 43, 0.1);
+            height: 10px;
+            border-radius: var(--radius-full);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .timer-progress {
+            background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
+            height: 100%;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+
+        .results-box {
+            background-color: var(--bg-color);
+            border: 2px dashed var(--gold);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
+            text-align: left;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* FAQ Accordion */
+        .faq-grid {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: var(--card-color);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-question {
+            padding: 1.35rem 1.75rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--primary);
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            color: var(--accent);
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            color: var(--accent);
+        }
+
+        .faq-answer {
+            padding: 0 1.75rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            padding-bottom: 1.5rem;
+            max-height: 250px;
+        }
+
+        /* Sección de Contacto */
+        .section-contact {
+            padding: 6rem 1.5rem;
+        }
+
+        .contact-box {
+            background-color: var(--card-color);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-lg);
+            padding: 3.5rem 2rem;
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 2rem auto 0 auto;
+        }
+
+        @media(min-width: 640px) {
+            .contact-form {
+                flex-direction: row;
+            }
+        }
+
+        .contact-form input {
+            flex-grow: 1;
+            padding: 0.95rem 1.25rem;
+            border: 2px solid rgba(30, 53, 43, 0.2);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-color);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .contact-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #121F19;
+            color: #9BB0A5;
+            padding: 4rem 1.5rem 2.5rem 1.5rem;
+            font-size: 0.88rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media(min-width: 768px) {
+            .footer-content {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        .footer-brand h4 {
+            color: #FFFFFF;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-brand p {
+            max-width: 380px;
+            line-height: 1.6;
+        }
+
+        .footer-col h5 {
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #9BB0A5;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #FFA585;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+        }
+
+        @media(min-width: 640px) {
+            .footer-bottom {
+                flex-direction: row;
+            }
+        }
+
+        /* Utilidades */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notificación Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1E352B;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 300;
+            border-left: 4px solid var(--accent);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media(min-width: 640px) {
+            .nav-links { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo">
+                <span class="logo-icon">🧠</span>
+                <span>MindExplora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#que-es">¿Qué es?</a></li>
+                <li><a href="#infografia">Infografía</a></li>
+                <li><a href="#video-section">Video</a></li>
+                <li><a href="#skill-section">Skill Zeigarnik</a></li>
+                <li><a href="#interactivo">Experimento 3D</a></li>
+                <li><a href="#faq">Preguntas</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#skill-section" class="btn btn-sm btn-accent">⚡ Probar Skill</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge badge-accent">
+                <span class="badge-dot"></span>
+                <span>Psicología Cognitiva & IA Aplicada</span>
+            </div>
+            <h1>
+                ¿Por qué tu cerebro <br>
+                <span class="italic">no olvida</span> lo que dejas a medias?
+            </h1>
+            <p class="lead">
+                Descubre el <strong>Efecto Zeigarnik</strong>: el fascinante sesgo cognitivo que mantiene encendidas tus tareas inconclusas. Explora la infografía oficial, mira el video explicativo y usa la <strong>Skill interactiva en vivo</strong> para vencer la procrastinación y crear retención profunda.
+            </p>
+            <div class="hero-buttons">
+                <a href="#skill-section" class="btn btn-accent">⚡ Usar Skill Interactiva</a>
+                <a href="#video-section" class="btn btn-outline">▶️ Ver Video Explicativo</a>
+                <a href="#infografia" class="btn">🖼️ Explorar Infografía</a>
+            </div>
+
+            <!-- Stats / Highlights -->
+            <div class="hero-stats card-3d">
+                <div class="stat-item">
+                    <span class="stat-number">1927</span>
+                    <span class="stat-label">Año del descubrimiento de Bluma Zeigarnik</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">+90%</span>
+                    <span class="stat-label">Mayor recuerdo de tareas interrumpidas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4 Modos</span>
+                    <span class="stat-label">Protocolos ejecutables en la Skill</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 1: ¿Qué es el Efecto Zeigarnik? -->
+    <section id="que-es" class="section-alt">
+        <div class="container">
+            <div class="grid-2">
+                <div>
+                    <span class="section-tag">Fundamento Científico</span>
+                    <h2 class="section-title">El poder secreto de las tareas inacabadas</h2>
+                    <p style="margin-bottom: 1.2rem; color: var(--text-main);">
+                        A principios del siglo XX en un café de Viena, la psicóloga <strong>Bluma Zeigarnik</strong> y su mentor <strong>Kurt Lewin</strong> notaron un comportamiento asombroso: los camareros retenían en su memoria pedidos kilométricos y complejos sin apuntar nada... pero una vez que el cliente pagaba la cuenta, la información desaparecía instantáneamente de sus mentes.
+                    </p>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                        El cerebro humano genera una <em>tensión psicológica activa</em> cuando inicia una tarea. Esa tensión solo se desactiva cuando el ciclo se cierra. Si se interrumpe deliberadamente, el hilo de procesamiento permanece en primer plano.
+                    </p>
+                    <blockquote style="border-left: 4px solid var(--accent); padding: 0.8rem 1.25rem; font-style: italic; color: var(--primary); font-weight: 500; background: var(--card-color); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+                        "Recordamos las tareas interrumpidas o no terminadas mucho mejor que las que ya hemos completado con éxito."
+                    </blockquote>
+                </div>
+                <div>
+                    <div class="card-explanation card-3d">
+                        <span class="badge">Experimento Pionero</span>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 0.75rem;">La Memoria de Trabajo en Tensión</h3>
+                        <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                            En el experimento de 1927, los participantes completaron 20 tareas manuales y matemáticas. Aquellas que fueron interrumpidas artificialmente a la mitad se recordaron hasta un <strong>90% mejor</strong> que las finalizadas.
+                        </p>
+                        <div class="badge-state">
+                            <span>Estado mental con tarea abierta:</span>
+                            <span style="color: var(--accent);">● Tensión Cognitiva Activa</span>
+                        </div>
+                        <div class="badge-state" style="margin-top: 0.6rem;">
+                            <span>Estado tras completar o cerrar:</span>
+                            <span style="color: var(--primary-light);">✔ Descarga & Reposo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 2: INFOGRAFÍA OFICIAL
+    ============================================================ -->
+    <section id="infografia">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Recurso Visual Exclusivo</span>
+                <h2 class="section-title">Infografía: Anatomía del Efecto Zeigarnik</h2>
+                <p class="section-desc">
+                    Revisa la infografía completa con el mapa conceptual del fenómeno: orígenes históricos, el experimento de 1927, aplicaciones prácticas y su rigor científico.
+                </p>
+            </div>
+
+            <div class="infografia-showcase">
+                <!-- Imagen con marco y botón de zoom -->
+                <div class="infografia-frame card-3d">
+                    <img src="./Infografia.png" alt="Infografía del Efecto Zeigarnik - ¿Por qué nuestra mente recuerda lo que dejamos a medias?" class="infografia-img" id="infografia-img" onclick="openModal()">
+                    <button class="infografia-overlay-btn" onclick="openModal()">
+                        🔍 Ver en Alta Resolución
+                    </button>
+                </div>
+
+                <!-- Desglose de los Pilares de la Infografía -->
+                <div class="pillars-list">
+                    <div class="pillar-item">
+                        <div class="pillar-num">01</div>
+                        <div class="pillar-content">
+                            <h4>¿Qué es con exactitud?</h4>
+                            <p>Tendencia psicológica a recordar la información de tareas inacabadas frente a las ya finalizadas.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-item">
+                        <div class="pillar-num">02</div>
+                        <div class="pillar-content">
+                            <h4>El Origen en Viena</h4>
+                            <p>Bluma Zeigarnik observó a camareros recordando comandas abiertas pero olvidando las cuentas saldadas.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-item">
+                        <div class="pillar-num">03</div>
+                        <div class="pillar-content">
+                            <h4>El Experimento de 1927</h4>
+                            <p>20 ejercicios prácticos: los interrumpidos generaron un recuerdo mucho más persistente en la memoria.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-item">
+                        <div class="pillar-num">04</div>
+                        <div class="pillar-content">
+                            <h4>En la Vida Cotidiana</h4>
+                            <p>Series con cliffhangers, tareas pendientes de trabajo y proyectos postergados que no nos dejan dormir.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-item">
+                        <div class="pillar-num">05</div>
+                        <div class="pillar-content">
+                            <h4>Rigor & Replicabilidad</h4>
+                            <p>El efecto involucra la motivación intrínseca; sin interés personal, la persistencia en memoria se reduce.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 0.5rem; display: flex; gap: 0.75rem;">
+                        <a href="./Infografia.png" download="Infografia_Efecto_Zeigarnik.png" class="btn btn-outline btn-sm">
+                            📥 Descargar Infografía PNG
+                        </a>
+                        <button onclick="openModal()" class="btn btn-accent btn-sm">
+                            🔍 Abrir Visor Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Lightbox para la Infografía -->
+    <div id="img-modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content-wrapper">
+            <span class="modal-close" onclick="closeModal(event)">&times;</span>
+            <img src="./Infografia.png" alt="Infografía Efecto Zeigarnik en Alta Resolución" class="modal-img">
+            <div style="margin-top: 1rem; color: #E2ECE5; font-size: 0.9rem;">
+                Haz clic fuera o presiona la cruz para cerrar el visor.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECCIÓN 3: VIDEO EXPLICATIVO
+    ============================================================ -->
+    <section id="video-section" class="section-alt video-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Masterclass Animada</span>
+                <h2 class="section-title">Video: Tareas Incompletas = Mente Activa</h2>
+                <p class="section-desc">
+                    Observa la animación explicativa de 29 segundos: cómo reacciona tu cerebro cuando cierras la laptop con un informe a medias y cómo cerrarlo conscientemente.
+                </p>
+            </div>
+
+            <div class="video-showcase">
+                <!-- Frame de Smartphone Vertical para Video 9:16 -->
+                <div class="phone-mockup">
+                    <div class="phone-notch"></div>
+                    <div class="video-wrapper">
+                        <video id="zeigarnik-video" class="video-player" controls playsinline preload="metadata">
+                            <source src="./video.mp4" type="video/mp4">
+                            Tu navegador no soporta la reproducción de video HTML5.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Capítulos y Análisis del Video -->
+                <div class="video-insights-box">
+                    <div style="margin-bottom: 0.5rem;">
+                        <h3 style="font-size: 1.6rem; margin-bottom: 0.5rem;">Momentos Clave del Video</h3>
+                        <p style="color: var(--text-muted); font-size: 0.92rem;">
+                            Haz clic en cualquier segmento para reproducir la lección exacta:
+                        </p>
+                    </div>
+
+                    <!-- Capítulo 1 -->
+                    <div class="chapter-card" onclick="seekVideo(0)">
+                        <div class="chapter-time">0:00</div>
+                        <div class="chapter-info">
+                            <h4>¿No puedes dejar de pensar en lo que dejaste a medias?</h4>
+                            <p>Introducción al dilema cognitivo: el cerebro atrapado en el bucle.</p>
+                        </div>
+                    </div>
+
+                    <!-- Capítulo 2 -->
+                    <div class="chapter-card" onclick="seekVideo(4)">
+                        <div class="chapter-time">0:04</div>
+                        <div class="chapter-info">
+                            <h4>Tareas Incompletas = Mente Activa</h4>
+                            <p>La definición directa: las tareas no terminadas quedan encendidas en la memoria.</p>
+                        </div>
+                    </div>
+
+                    <!-- Capítulo 3 -->
+                    <div class="chapter-card" onclick="seekVideo(10)">
+                        <div class="chapter-time">0:10</div>
+                        <div class="chapter-info">
+                            <h4>El Caso del Informe y la Laptop</h4>
+                            <p>Cierras la computadora pero sigues pensando en la frase exacta que te faltó redactar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Capítulo 4 -->
+                    <div class="chapter-card" onclick="seekVideo(16)">
+                        <div class="chapter-time">0:16</div>
+                        <div class="chapter-info">
+                            <h4>Cliffhangers en Series de TV</h4>
+                            <p>Por qué el suspenso nos obliga a ver el siguiente episodio de inmediato.</p>
+                        </div>
+                    </div>
+
+                    <!-- Capítulo 5 -->
+                    <div class="chapter-card" onclick="seekVideo(22)">
+                        <div class="chapter-time">0:22</div>
+                        <div class="chapter-info">
+                            <h4>La Solución: Cierre Consciente</h4>
+                            <p>Termina una pequeña parte, anota el siguiente paso o cierra la tarea formalmente para descansar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 4: LA SKILL INTERACTIVA "EFECTO ZEIGARNIK" (CORE)
+    ============================================================ -->
+    <section id="skill-section" class="skill-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge skill-badge">⚡ Skill efecto-zeigarnik v1.0.0</span>
+                <h2>Laboratorio & Asistente de la Skill en Vivo</h2>
+                <p class="section-desc">
+                    Experimenta el poder de la <strong>Skill Efecto Zeigarnik</strong> directamente en esta landing. Selecciona tu protocolo, escribe tu desafío o pulsa un ejemplo predefinido para recibir una estrategia psicológica a medida.
+                </p>
+            </div>
+
+            <div class="skill-container">
+                <!-- Selector de Modo de la Skill -->
+                <div class="skill-modes">
+                    <button class="mode-tab active" onclick="setSkillMode('procrastinacion', this)">
+                        <div class="mode-tab-title">🛑 Vencer Procrastinación</div>
+                        <div class="mode-tab-desc">Micro-inicios deliberados y la regla de los 5 minutos para arrancar tareas difíciles.</div>
+                    </button>
+                    <button class="mode-tab" onclick="setSkillMode('storytelling', this)">
+                        <div class="mode-tab-title">🎬 Cliffhangers & Story</div>
+                        <div class="mode-tab-desc">Crea bucles abiertos en discursos, newsletters o guiones para retener atención.</div>
+                    </button>
+                    <button class="mode-tab" onclick="setSkillMode('estudio', this)">
+                        <div class="mode-tab-title">📚 Pausas de Estudio</div>
+                        <div class="mode-tab-desc">Optimiza sesiones de estudio interrumpiéndote estratégicamente en el clímax.</div>
+                    </button>
+                    <button class="mode-tab" onclick="setSkillMode('cierre', this)">
+                        <div class="mode-tab-title">🧘 Cierre Mental Consciente</div>
+                        <div class="mode-tab-desc">Descarga bucles abiertos que quitan el sueño y programa un anclaje de paz mental.</div>
+                    </button>
+                </div>
+
+                <!-- Input interactivo -->
+                <div class="skill-input-area">
+                    <label for="skill-task-input" class="skill-input-label" id="skill-input-label">
+                        ¿Qué tarea, proyecto o texto deseas procesar con la Skill?
+                    </label>
+                    <textarea id="skill-task-input" class="skill-textarea" placeholder="Ej: Tengo que redactar un informe financiero aburrido de 15 páginas y no consigo ponerme a trabajar..."></textarea>
+
+                    <!-- Presets rápidos -->
+                    <div class="preset-container">
+                        <span class="preset-label">Ejemplos rápidos:</span>
+                        <button class="preset-btn" onclick="applyPreset(0)">📄 Informe aburrido</button>
+                        <button class="preset-btn" onclick="applyPreset(1)">🏃 Retomar ejercicio físico</button>
+                        <button class="preset-btn" onclick="applyPreset(2)">📧 Email de ventas con gancho</button>
+                        <button class="preset-btn" onclick="applyPreset(3)">📖 Estudiar examen complejo</button>
+                        <button class="preset-btn" onclick="applyPreset(4)">🧠 Rumiación mental nocturna</button>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="skill-actions">
+                        <div style="font-size: 0.8rem; color: #9FB5A9;">
+                            Basado en la especificación formal de <a href="./efecto-zeigarnik.md" style="color: #FFA585; text-decoration: underline;" target="_blank">efecto-zeigarnik.md</a>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button onclick="viewSkillCode()" class="btn btn-sm btn-outline" style="border-color: rgba(255,255,255,0.3); color: white;">
+                                📜 Ver Código de la Skill
+                            </button>
+                            <button onclick="executeZeigarnikSkill()" id="run-skill-btn" class="btn btn-accent">
+                                ✨ Ejecutar Skill Zeigarnik
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salida Generada por la Skill -->
+                <div id="skill-output-area" class="skill-output-box hidden">
+                    <div class="output-header">
+                        <div class="output-title">
+                            <span id="output-protocol-icon">🎯</span>
+                            <span id="output-protocol-title">Estrategia Zeigarnik Generada</span>
+                        </div>
+                        <span class="badge" style="background: rgba(212,163,115,0.2); color: var(--gold); border: none; font-size: 0.75rem;">
+                            Procesamiento Cognitivo OK
+                        </span>
+                    </div>
+
+                    <div class="output-grid">
+                        <div class="output-card">
+                            <div class="output-card-title">🔍 Diagnóstico del Bucle Mental</div>
+                            <p id="output-diagnosis">Cargando...</p>
+                        </div>
+
+                        <div class="output-card">
+                            <div class="output-card-title">⚙️ Mecánica Psicológica Aplicada</div>
+                            <p id="output-mechanic">Cargando...</p>
+                        </div>
+
+                        <div class="output-step-box">
+                            <div class="output-card-title" style="color: #FFD29D; font-size: 0.95rem;">
+                                🚀 Acción Zeigarnik Inmediata (Paso Inconcluso Táctico)
+                            </div>
+                            <p id="output-action-step" style="font-size: 1.05rem; font-weight: 500; margin-top: 0.5rem; color: #FFFFFF;">
+                                Cargando...
+                            </p>
+                        </div>
+
+                        <div class="output-card" style="grid-column: 1 / -1; background: rgba(0,0,0,0.2);">
+                            <div class="output-card-title">✅ Protocolo de Cierre Consciente</div>
+                            <p id="output-closure">Cargando...</p>
+                        </div>
+                    </div>
+
+                    <div class="output-actions">
+                        <button onclick="copySkillPlan()" class="btn btn-sm btn-accent">
+                            📋 Copiar Plan Estratégico
+                        </button>
+                        <button onclick="downloadSkillPlan()" class="btn btn-sm btn-outline" style="border-color: rgba(255,255,255,0.25); color: white;">
+                            📥 Descargar como Markdown
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para ver el archivo efecto-zeigarnik.md -->
+    <div id="code-modal" class="modal" onclick="closeCodeModal(event)">
+        <div class="modal-content-wrapper" style="max-width: 820px; text-align: left;">
+            <span class="modal-close" onclick="closeCodeModal(event)">&times;</span>
+            <div style="background: #14241C; padding: 2rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.15); max-height: 80vh; overflow-y: auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem;">
+                    <h3 style="color: var(--gold); font-size: 1.25rem;">📄 efecto-zeigarnik.md (Skill Definition)</h3>
+                    <a href="./efecto-zeigarnik.md" download="efecto-zeigarnik.md" class="btn btn-sm btn-outline" style="color: white; border-color: rgba(255,255,255,0.3); font-size: 0.75rem;">
+                        Descargar .md
+                    </a>
+                </div>
+                <pre style="color: #D3E0D8; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word;" id="skill-raw-code">
+Cargando código de la skill...
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECCIÓN 5: MINI-EXPERIMENTO COGNITIVO 3D
+    ============================================================ -->
+    <section id="interactivo" class="section-interactive">
+        <div class="container">
+            <span class="badge" style="background: rgba(212, 163, 115, 0.15); color: var(--gold); border-color: rgba(212, 163, 115, 0.3);">
+                Laboratorio Mental 3D
+            </span>
+            <h2 style="font-size: 2.6rem; color: white; margin-top: 0.5rem; margin-bottom: 1rem;">
+                Demostración Práctica del Efecto
+            </h2>
+            <p style="color: rgba(251, 248, 243, 0.85); max-width: 650px; margin: 0 auto; font-size: 1rem;">
+                Experimenta en carne propia cómo se comporta tu atención ante una interrupción inesperada. Memoriza la lista y observa qué palabra prevalece.
+            </p>
+
+            <div class="interactive-card card-3d">
+                <div id="game-container">
+                    <div id="instruction-text" style="font-weight: 600; font-size: 1.15rem; color: var(--primary); margin-bottom: 1rem;">
+                        Memoriza las palabras antes de que ocurra la interrupción:
+                    </div>
+
+                    <div class="word-grid" id="word-grid">
+                        <div class="word-chip">01. Cuaderno</div>
+                        <div class="word-chip">02. Brújula</div>
+                        <div class="word-chip" id="target-chip">03. Café</div>
+                        <div class="word-chip">04. Llave</div>
+                        <div class="word-chip">05. Reloj</div>
+                    </div>
+
+                    <div class="timer-bar">
+                        <div id="timer-progress" class="timer-progress" style="width: 100%;"></div>
+                    </div>
+
+                    <button onclick="runExperiment()" id="start-btn" class="btn btn-accent">
+                        ▶️ Comenzar Experimento
+                    </button>
+
+                    <!-- Resultados Interactivos -->
+                    <div id="results-area" class="hidden results-box">
+                        <h3 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 0.6rem;">
+                            📊 Diagnóstico de Retención Cerebral:
+                        </h3>
+                        <p style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.75rem;">
+                            ¿Qué palabra saltó a tu mente en el momento exacto del corte?
+                        </p>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); background-color: var(--accent-soft); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px solid rgba(200,90,50,0.3);">
+                            👉 ¡La palabra <span id="highlighted-word">"Café"</span> (la que fue interrumpida abruptamente a la mitad)!
+                        </div>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                            Tu corteza prefrontal abrió un proceso de alta prioridad para completar la secuencia truncada. Este es el corazón del Efecto Zeigarnik: lo inconcluso genera alerta; lo finalizado se archiva y se olvida.
+                        </p>
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <button onclick="resetExperiment()" class="btn btn-sm">🔄 Repetir Experimento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 6: PREGUNTAS FRECUENTES (FAQ)
+    ============================================================ -->
+    <section id="faq" class="section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Dudas Comunes</span>
+                <h2 class="section-title">Preguntas Frecuentes sobre el Efecto</h2>
+                <p class="section-desc">
+                    Respuestas con rigor psicológico sobre cómo sacarle el máximo provecho sin caer en el agotamiento mental.
+                </p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>¿El Efecto Zeigarnik puede provocar ansiedad o insomnio?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí. Cuando acumulas demasiados "bucles abiertos" (tareas pendientes sin plan concreto), tu cerebro los percibe como amenazas activas. La solución validada por la neurociencia es el <strong>Cierre Consciente</strong>: anotar la tarea con una fecha y próximo paso atómico específico.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>¿Cómo puedo usarlo para dejar de procrastinar?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Usa la regla de los 5 minutos con inicio incompleto: comprométete a escribir solo el título o la primera frase de un informe y proponte detenerte. Una vez que la tarea ha comenzado, la mente genera tensión por concluirla y el rechazo inicial desaparece.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>¿Por qué las series de televisión terminan en cliffhangers?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Los guionistas emplean el Efecto Zeigarnik cortando el episodio en el punto de máxima incertidumbre. Tu cerebro no puede "cerrar el expediente", por lo que sigues pensando en la historia durante días hasta ver el siguiente capítulo.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>¿Cómo se integra la Skill efecto-zeigarnik en agentes de IA?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        El archivo <code>efecto-zeigarnik.md</code> contiene la especificación con metadatos YAML y directrices operativas. Puedes importarlo a plataformas de agentes (como Antigravity, Claude o Copilot) para que el asistente aplique automáticamente los 4 protocolos cognitivos.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto & Boletín -->
+    <section id="contacto" class="section-contact">
+        <div class="container">
+            <div class="contact-box card-3d">
+                <span class="badge">Comunidad MindExplora</span>
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">¿Quieres dominar los sesgos de tu mente?</h2>
+                <p style="color: var(--text-muted); max-width: 520px; margin: 0 auto; font-size: 0.98rem;">
+                    Recibe cada semana una dosis de psicología práctica aplicada a la productividad, el aprendizaje y la toma de decisiones.
+                </p>
+                <form onsubmit="handleSubscribe(event)" class="contact-form">
+                    <input type="email" required placeholder="Ingresa tu correo electrónico">
+                    <button type="submit" class="btn btn-accent">Suscribirme Gratis</button>
+                </form>
+                <div id="success-msg" class="hidden" style="margin-top: 1.2rem; font-size: 0.9rem; font-weight: 600; color: var(--accent);">
+                    ✔ ¡Bienvenido a bordo! Te hemos enviado un correo de bienvenida.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h4>MindExplora & Efecto Zeigarnik</h4>
+                    <p>
+                        Plataforma educativa interactiva inspirada en los descubrimientos de Bluma Zeigarnik y Kurt Lewin (1927). Diseñada para potenciar el enfoque y hackear la productividad.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h5>Recursos del Proyecto</h5>
+                    <ul class="footer-links">
+                        <li><a href="./efecto-zeigarnik.md" target="_blank">📄 Skill Markdown (.md)</a></li>
+                        <li><a href="./Infografia.png" target="_blank">🖼️ Infografía Completa</a></li>
+                        <li><a href="./video.mp4" target="_blank">🎥 Video Animado (MP4)</a></li>
+                        <li><a href="./README.md" target="_blank">📖 Documentación & Badges</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Navegación</h5>
+                    <ul class="footer-links">
+                        <li><a href="#que-es">¿Qué es el Efecto?</a></li>
+                        <li><a href="#infografia">Infografía</a></li>
+                        <li><a href="#video-section">Video Explicativo</a></li>
+                        <li><a href="#skill-section">Skill Interactiva</a></li>
+                        <li><a href="#interactivo">Experimento 3D</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 MindExplora. Desarrollado con HTML5, CSS3 y Vanilla JavaScript.</div>
+                <div>Inspirado en investigaciones de Bluma Zeigarnik & Adrián Triglia (Psicología y Mente).</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="toast">
+        <span id="toast-message">Plan copiado con éxito al portapapeles.</span>
+    </div>
+
+    <!-- ============================================================
+         LÓGICA JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ESTADO DE LA SKILL INTERACTIVA
+        let currentSkillMode = 'procrastinacion';
+
+        const skillPresets = [
+            {
+                mode: 'procrastinacion',
+                text: "Tengo que redactar un informe financiero aburrido de 15 páginas y no consigo ponerme a trabajar..."
+            },
+            {
+                mode: 'procrastinacion',
+                text: "Llevo 2 semanas posponiendo volver a entrenar en el gimnasio y siempre encuentro una excusa."
+            },
+            {
+                mode: 'storytelling',
+                text: "Quiero enviar un email comercial para vender mi curso de programación sin que suene aburrido o insistente."
+            },
+            {
+                mode: 'estudio',
+                text: "Tengo que memorizar 40 páginas sobre el sistema nervioso para mi examen final de anatomía."
+            },
+            {
+                mode: 'cierre',
+                text: "Tengo 8 pendientes en la cabeza (correos sin responder, facturas, compras) y no puedo conciliar el sueño."
+            }
+        ];
+
+        function setSkillMode(mode, element) {
+            currentSkillMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(tab => tab.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+
+            const label = document.getElementById('skill-input-label');
+            const textarea = document.getElementById('skill-task-input');
+
+            switch (mode) {
+                case 'procrastinacion':
+                    label.innerText = "¿Qué tarea o proyecto estás postergando?";
+                    textarea.placeholder = "Ej: Escribir el informe anual, ordenar el armario, preparar la declaración de impuestos...";
+                    break;
+                case 'storytelling':
+                    label.innerText = "¿Cuál es el tema, mensaje o producto que deseas comunicar?";
+                    textarea.placeholder = "Ej: Lanzar un servicio de consultoría, contar una anécdota en LinkedIn, presentar una propuesta...";
+                    break;
+                case 'estudio':
+                    label.innerText = "¿Qué tema o materia necesitas estudiar y retener a largo plazo?";
+                    textarea.placeholder = "Ej: Fisiología cardíaca, fórmulas de física cuántica, vocabulario de alemán...";
+                    break;
+                case 'cierre':
+                    label.innerText = "¿Cuáles son las tareas pendientes que no te dejan desconectar?";
+                    textarea.placeholder = "Ej: Responder al cliente X, enviar contrato de alquiler, pagar servicio eléctrico...";
+                    break;
+            }
+        }
+
+        function applyPreset(index) {
+            const preset = skillPresets[index];
+            const matchingTab = document.querySelectorAll('.mode-tab')[
+                preset.mode === 'procrastinacion' ? 0 :
+                preset.mode === 'storytelling' ? 1 :
+                preset.mode === 'estudio' ? 2 : 3
+            ];
+            setSkillMode(preset.mode, matchingTab);
+            document.getElementById('skill-task-input').value = preset.text;
+            showToast("Ejemplo cargado. ¡Presiona 'Ejecutar Skill'!");
+        }
+
+        function executeZeigarnikSkill() {
+            const taskInput = document.getElementById('skill-task-input').value.trim();
+            const btn = document.getElementById('run-skill-btn');
+
+            if (!taskInput) {
+                showToast("Por favor escribe una tarea o selecciona un ejemplo.");
+                document.getElementById('skill-task-input').focus();
+                return;
+            }
+
+            btn.innerText = "⏳ Procesando Sesgo Cognitivo...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const outputArea = document.getElementById('skill-output-area');
+                const diagElem = document.getElementById('output-diagnosis');
+                const mechElem = document.getElementById('output-mechanic');
+                const actionElem = document.getElementById('output-action-step');
+                const closureElem = document.getElementById('output-closure');
+                const iconElem = document.getElementById('output-protocol-icon');
+                const titleElem = document.getElementById('output-protocol-title');
+
+                if (currentSkillMode === 'procrastinacion') {
+                    iconElem.innerText = "🛑";
+                    titleElem.innerText = "Protocolo Zeigarnik: Bucle de Arranque Atómico";
+                    diagElem.innerText = `Tu mente percibe la tarea "${taskInput.slice(0, 45)}..." como una montaña monolítica, activando la resistencia de inicio de la corteza prefrontal.`;
+                    mechElem.innerText = "Iniciaremos un micro-movimiento intencionalmente incompleto. Al romper la inercia, la tensión cuasi-necesaria de Kurt Lewin forzará a tu mente a querer cerrarlo.";
+                    actionElem.innerHTML = `<strong>Paso de 3 Minutos:</strong> Abre el entorno de trabajo y realiza SOLO el 1% más elemental (ej. redacta el título y media frase). Deténte deliberadamente a mitad de una palabra o idea y bebe un vaso de agua. Tu cerebro exigirá terminar la frase.`;
+                    closureElem.innerText = "Una vez completado el bloque principal de 25 min, anota la primera palabra con la que arrancarás mañana para mantener el puente cognitivo abierto sin estrés.";
+                } else if (currentSkillMode === 'storytelling') {
+                    iconElem.innerText = "🎬";
+                    titleElem.innerText = "Protocolo Zeigarnik: Bucles Abiertos & Cliffhanger";
+                    diagElem.innerText = `La comunicación plana sin tensión cognitiva provoca fuga inmediata de atención en tu audiencia.`;
+                    mechElem.innerText = "Abriremos un vacío de información ('Information Gap') que active el impulso de cierre Zeigarnik antes de revelar la propuesta de valor.";
+                    actionElem.innerHTML = `<strong>Estructura en 3 Bucles:</strong><br>
+                    1. <em>Gancho Inicial (Bucle 1):</em> Plantea una contradicción intrigante sobre "${taskInput.slice(0, 30)}..." sin resolverla.<br>
+                    2. <em>Desarrollo Inconcluso (Bucle 2):</em> Comparte la lección pero pospón el desenlace clave.<br>
+                    3. <em>Clímax & CTA:</em> Cierra el primer bucle únicamente cuando el lector llegue al llamado a la acción.`;
+                    closureElem.innerText = "Evita dar toda la información en el primer párrafo; deja siempre una pregunta tácita sin resolver hasta el párrafo final.";
+                } else if (currentSkillMode === 'estudio') {
+                    iconElem.innerText = "📚";
+                    titleElem.innerText = "Protocolo Zeigarnik: Interrupción Estratégica de Aprendizaje";
+                    diagElem.innerText = `Estudiar hasta la fatiga o terminar siempre al final de un capítulo satura la memoria a corto plazo y borra los detalles finos.`;
+                    mechElem.innerText = "El experimento de 1927 demostró que cortar el flujo en el punto más interesante activa el 'modo difuso' cerebral durante las pausas.";
+                    actionElem.innerHTML = `<strong>Algoritmo de Interrupción Táctica:</strong> Programa un temporizador de 35 minutos. Cuando suene la alarma, detente DE INMEDIATO, incluso si estás en la mitad del párrafo más fascinante de "${taskInput.slice(0, 30)}...". Sal a caminar 7 minutos sin mirar pantallas. Tu cerebro continuará procesando la información en segundo plano.`;
+                    closureElem.innerText = "Al regresar, escribe de memoria lo que estabas procesando antes de volver a mirar el texto. Retención estimada: +85%.";
+                } else {
+                    iconElem.innerText = "🧘";
+                    titleElem.innerText = "Protocolo Zeigarnik: Cierre Consciente & Descarga Cognitiva";
+                    diagElem.innerText = `Tus pendientes están compitiendo por la memoria de trabajo activa, generando rumiación nocturna e imposibilidad de desconectar.`;
+                    mechElem.innerText = "Según el principio Baumeister-Masicampo, el cerebro no necesita terminar la tarea para descansar; solo necesita saber que existe un plan específico con fecha y próximo paso físico.";
+                    actionElem.innerHTML = `<strong>Descarga en Papel / Digital:</strong> Transforma "${taskInput.slice(0, 35)}..." en: 1) Un paso físico no mayor a 5 minutos, y 2) Un momento exacto en tu calendario (Día y Hora). Di en voz alta: <em>'Este bucle queda resguardado hasta esa hora; mi mente tiene permiso para descansar'</em>.`;
+                    closureElem.innerText = "El Efecto Zeigarnik suspenderá la alarma cerebral al considerar la tarea como 'gestionada bajo control'.";
+                }
+
+                outputArea.classList.remove('hidden');
+                outputArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                btn.innerText = "✨ Ejecutar Skill Zeigarnik";
+                btn.disabled = false;
+                showToast("¡Estrategia cognitiva generada con éxito!");
+            }, 600);
+        }
+
+        function copySkillPlan() {
+            const diag = document.getElementById('output-diagnosis').innerText;
+            const action = document.getElementById('output-action-step').innerText;
+            const closure = document.getElementById('output-closure').innerText;
+            const textToCopy = `=== PLAN COGNITIVO ZEIGARNIK ===\n\n[Diagnóstico]:\n${diag}\n\n[Acción Inmediata]:\n${action}\n\n[Protocolo de Cierre]:\n${closure}\n\nGenerado con la Skill efecto-zeigarnik - MindExplora`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("📋 Plan copiado al portapapeles.");
+            }).catch(() => {
+                showToast("Error al copiar. Selecciona el texto manualmente.");
+            });
+        }
+
+        function downloadSkillPlan() {
+            const diag = document.getElementById('output-diagnosis').innerText;
+            const action = document.getElementById('output-action-step').innerText;
+            const closure = document.getElementById('output-closure').innerText;
+            const content = `# Plan Estratégico - Efecto Zeigarnik\n\n## 🔍 Diagnóstico Cognitivo\n${diag}\n\n## 🚀 Acción Zeigarnik Inmediata\n${action}\n\n## ✅ Cierre Consciente\n${closure}\n\n---\n*Generado en MindExplora con la Skill efecto-zeigarnik*`;
+
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Estrategia_Zeigarnik_${currentSkillMode}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("📥 Archivo Markdown descargado.");
+        }
+
+        function viewSkillCode() {
+            fetch('./efecto-zeigarnik.md')
+                .then(r => r.text())
+                .then(text => {
+                    document.getElementById('skill-raw-code').innerText = text;
+                    document.getElementById('code-modal').classList.add('active');
+                })
+                .catch(err => {
+                    document.getElementById('skill-raw-code').innerText = "---\nname: efecto-zeigarnik\ndescription: Skill de psicología cognitiva basada en el Efecto Zeigarnik (1927)\n---\nConsulta el archivo efecto-zeigarnik.md en la raíz del proyecto.";
+                    document.getElementById('code-modal').classList.add('active');
+                });
+        }
+
+        function closeCodeModal(e) {
+            if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
+                document.getElementById('code-modal').classList.remove('active');
+            }
+        }
+
+        // CONTROL DEL VIDEO
+        function seekVideo(seconds) {
+            const video = document.getElementById('zeigarnik-video');
+            video.currentTime = seconds;
+            video.play();
+            showToast(`Saltando a segundo ${seconds}s del video.`);
+        }
+
+        // CONTROL DE LA INFOGRAFÍA MODAL
+        function openModal() {
+            document.getElementById('img-modal').classList.add('active');
+        }
+
+        function closeModal(e) {
+            if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
+                document.getElementById('img-modal').classList.remove('active');
+            }
+        }
+
+        // EXPERIMENTO COGNITIVO
+        let experimentInterval = null;
+
+        function runExperiment() {
+            const btn = document.getElementById('start-btn');
+            const progressBar = document.getElementById('timer-progress');
+            const targetChip = document.getElementById('target-chip');
+            const instructionText = document.getElementById('instruction-text');
+            const resultsArea = document.getElementById('results-area');
+
+            btn.classList.add('hidden');
+            resultsArea.classList.add('hidden');
+            instructionText.innerText = "Analizando atención y memoria de trabajo...";
+
+            let width = 100;
+            clearInterval(experimentInterval);
+            experimentInterval = setInterval(() => {
+                width -= 4;
+                progressBar.style.width = width + '%';
+
+                if (width <= 50) {
+                    targetChip.classList.add('interrupted');
+                    targetChip.innerHTML = "03. ⚠️ [INTERRUMPIDO]";
+                }
+
+                if (width <= 0) {
+                    clearInterval(experimentInterval);
+                    progressBar.style.width = '0%';
+                    instructionText.innerText = "¡Secuencia interrumpida abruptamente a la mitad!";
+                    resultsArea.classList.remove('hidden');
+                }
+            }, 100);
+        }
+
+        function resetExperiment() {
+            clearInterval(experimentInterval);
+            const btn = document.getElementById('start-btn');
+            const progressBar = document.getElementById('timer-progress');
+            const targetChip = document.getElementById('target-chip');
+            const instructionText = document.getElementById('instruction-text');
+            const resultsArea = document.getElementById('results-area');
+
+            resultsArea.classList.add('hidden');
+            btn.classList.remove('hidden');
+            targetChip.classList.remove('interrupted');
+            targetChip.innerHTML = "03. Café";
+            instructionText.innerText = "Memoriza las palabras antes de que ocurra la interrupción:";
+            progressBar.style.width = '100%';
+        }
+
+        // FAQ INTERACTIVO
+        function toggleFaq(item) {
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // FORMULARIO DE SUSCRIPCIÓN
+        function handleSubscribe(e) {
+            e.preventDefault();
+            document.getElementById('success-msg').classList.remove('hidden');
+            e.target.reset();
+            showToast("✔ ¡Gracias por suscribirte!");
+        }
+
+        // TOAST NOTIFICATIONS
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3200);
+        }
+    </script>
+</body>
+</html>
