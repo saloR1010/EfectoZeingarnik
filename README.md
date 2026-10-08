@@ -27,6 +27,8 @@
 
 ---
 
+# Enlace a la landing: https://salor1010.github.io/EfectoZeingarnik/
+
 ## 📖 Tabla de Contenidos
 1. [¿Qué es el Efecto Zeigarnik?](#-qué-es-el-efecto-zeigarnik)
 2. [Características Principales](#-características-principales)
